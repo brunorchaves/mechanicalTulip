@@ -41,11 +41,13 @@ void machineLEds(int button)
         {
           state = State_Rising;
           counter = 1;
+          pos =0;
         }
         else
         {
           state = State_Fading;
           counter = 255;
+          pos =90;
         }
       }
 
@@ -56,6 +58,7 @@ void machineLEds(int button)
         state = State_readButton;
       }
       counter++;
+      s.write(pos);
       if(pos <=90)
         pos++;
       analogWrite(led_pin, counter);
@@ -67,11 +70,11 @@ void machineLEds(int button)
       {
         state = State_readButton;
       }
+      s.write(pos);
       if(pos > 1)
         pos--;
       counter--;
       analogWrite(led_pin, counter);
-      s.write(pos);
       delay(5);
       break;
     default:
