@@ -1,9 +1,12 @@
-
+#include <Servo.h>
 int led_pin = 6;
 int button = 4;
-
+#define SERVO 5 // Porta Digital 6 PWM
+int pos; // Posição Servo
+Servo s; // Variável Servo
 void setup() {
-  
+  s.attach(SERVO);
+  s.write(0); // Inicia motor posição zero
   pinMode(led_pin, OUTPUT);
   pinMode(button, INPUT);
    Serial.begin(9600);
@@ -53,6 +56,8 @@ void machineLEds(int button)
         state = State_readButton;
       }
       counter++;
+      if(pos <=90)
+        pos++;
       analogWrite(led_pin, counter);
       delay(5);
       break;
@@ -62,8 +67,11 @@ void machineLEds(int button)
       {
         state = State_readButton;
       }
+      if(pos > 1)
+        pos--;
       counter--;
       analogWrite(led_pin, counter);
+      s.write(pos);
       delay(5);
       break;
     default:
